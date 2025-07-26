@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:02_Publishers_and_Subscribers/02_Publishers_and_Subscribers.playground">
+   </FileRef>
+   <FileRef
+      location = "group:02_Publishers_and_Subscribers/02_Publishers_and_Subscribers_Challenge.playground">
+   </FileRef>
+   <FileRef
+      location = "group:03_Transforming Operators/03_Transforming_Operators.playground">
+   </FileRef>
+   <FileRef
+      location = "group:03_Transforming Operators/03_Transforming_Operators_Challenge.playground">
+   </FileRef>
+</Workspace>
