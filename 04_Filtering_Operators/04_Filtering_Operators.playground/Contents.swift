@@ -84,7 +84,7 @@ example(of: "last(where:)") {
     .store(in: &subscrpitions)
 }
 
-
+// MARK: - DROP
 // ===== Dropping values - default to 1
 example(of: "dropFirst") {
   let numbers = (1...10).publisher
@@ -180,3 +180,5 @@ example(of: "prefix(untilOutputFrom:)") {
     }
   }
 }
+
+
