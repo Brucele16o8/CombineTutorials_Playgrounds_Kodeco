@@ -13,4 +13,10 @@
    <FileRef
       location = "group:03_Transforming Operators/03_Transforming_Operators_Challenge.playground">
    </FileRef>
+   <FileRef
+      location = "group:04_Filtering_Operators/04_Filtering_Operators.playground">
+   </FileRef>
+   <FileRef
+      location = "group:04_Filtering_Operators/04_Filtering_Operators_Challenge.playground">
+   </FileRef>
 </Workspace>
