@@ -28,4 +28,7 @@
    <FileRef
       location = "group:06_Time_Manipulation_Operators/06_Time_Manipulation_Operators_Starter.playground">
    </FileRef>
+   <FileRef
+      location = "group:07_Sequence_Operators/07_Sequence_Operators.playground">
+   </FileRef>
 </Workspace>
