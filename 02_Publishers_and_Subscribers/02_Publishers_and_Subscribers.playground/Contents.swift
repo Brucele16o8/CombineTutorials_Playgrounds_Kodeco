@@ -114,35 +114,37 @@ example(of: "Custom Subscriber") {
 }
 
 // =====
-//example(of: "Future") {
-//  func futureIncrement(
-//    integer: Int,
-//    afterDelay delay: TimeInterval
-//  ) -> Future<Int, Never> {
-//    Future { promise in
-//      print("Original")
-//      DispatchQueue.global().asyncAfter(deadline: .now() + delay)  {
-//        promise(.success(integer + 1))
-//      }
-//    }
-//  }
-//
-//  let future = futureIncrement(integer: 1, afterDelay: 0)
-//  future
-//    .receive(on: DispatchQueue.main)
-//    .sink(
-//      receiveCompletion: { print($0) },
-//      receiveValue: { print($0) }
-//    )
-//    .store(in: &subscriptions)
-//  
-//  future
-//    .receive(on: DispatchQueue.main)
-//    .sink(receiveCompletion: { print("Second", $0) },
-//          receiveValue: { print("Second", $0) })
-//    .store(in: &subscriptions)
-//
-//}
+example(of: "Future") {
+  func futureIncrement(
+    integer: Int,
+    afterDelay delay: TimeInterval
+  ) -> Future<Int, Never> {
+    Future { promise in
+      print("Future - Original")
+      DispatchQueue.global().asyncAfter(deadline: .now() + delay)  {
+        promise(.success(integer + 1))
+      }
+    }
+  }
+
+  let future = futureIncrement(integer: 1, afterDelay: 2)
+  future
+    .print("Future")
+    .receive(on: DispatchQueue.main)
+    .sink(
+      receiveCompletion: { print("First Future:", $0) },
+      receiveValue: { print("First Future:", $0) }
+    )
+    .store(in: &subscriptions)
+  
+  future
+    .print("Future")
+    .receive(on: DispatchQueue.main)
+    .sink(receiveCompletion: { print("Second Future:", $0) },
+          receiveValue: { print("Second Future:", $0) })
+    .store(in: &subscriptions)
+
+}
 
 // MARK: - Subjects
 example(of: "PassthroughSubject") {

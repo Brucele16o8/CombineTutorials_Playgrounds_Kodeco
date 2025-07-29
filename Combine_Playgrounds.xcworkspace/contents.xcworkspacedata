@@ -19,4 +19,13 @@
    <FileRef
       location = "group:04_Filtering_Operators/04_Filtering_Operators_Challenge.playground">
    </FileRef>
+   <FileRef
+      location = "group:05_Combining_Operators/05_Combining_Operators.playground">
+   </FileRef>
+   <FileRef
+      location = "group:06_Time_Manipulation_Operators/06_Time_Manipulation_Operators_Challenge.playground">
+   </FileRef>
+   <FileRef
+      location = "group:06_Time_Manipulation_Operators/06_Time_Manipulation_Operators_Starter.playground">
+   </FileRef>
 </Workspace>

@@ -145,7 +145,8 @@ example(of: "prefix") {
     .store(in: &subscrpitions)
 }
 
-// prefix(while:)
+// ===== prefix(while:)
+/// As the opposite of dropFirst, prefix(_:) will take values only up to the provided amount and then complete:
 example(of: "prefix(while:)") {
   let numbers = (1...10).publisher
   
