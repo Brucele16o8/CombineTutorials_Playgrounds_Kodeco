@@ -44,7 +44,7 @@ struct ContentView: View {
         .padding(.bottom)
       } /// - HStack
       
-      Image(uiImage: model.imagePreview ?? UIImage())
+      Image(uiImage: model.imagePreview ?? UIImage())  /// Display ImagePreview
         .resizable()
         .frame(height: 200, alignment: .center)
         .border(Color.gray, width: 2)
@@ -72,10 +72,17 @@ struct ContentView: View {
       .buttonStyle(.bordered)
     } /// - VStack
     .padding()
-    .onChange(of: model.lastSavedPhotoID, perform: { lastSavedPhotoID in
+    .onChange(of: model.lastSavedPhotoID) {
       isDisplayingSavedMessage = true
-    })
-    .alert(lastErrorMessage, isPresented: $isDisplayingSavedMessage, actions: { })
+    }
+    .alert(
+      "Message",
+      isPresented: $isDisplayingSavedMessage,
+      actions: { },
+      message: {
+        Text("Saved photo with id: \(model.lastSavedPhotoID)")
+      }
+    )
     .sheet(isPresented: $isDisplayingPhotoPicker, onDismiss: {
       
     }) {
