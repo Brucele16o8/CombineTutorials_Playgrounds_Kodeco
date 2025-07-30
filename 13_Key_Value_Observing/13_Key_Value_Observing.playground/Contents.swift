@@ -66,3 +66,62 @@ example(of: "ObservableObject") {
   object.someProperty = true
   object.someOtherProperty = "Hello World"
 }
+
+// =====
+example(of: "multicast") {
+  let subject = PassthroughSubject<Data, URLError>()
+  
+  let multicasted = URLSession.shared
+    .dataTaskPublisher(for: URL(string: "https://www.kodeco.com")!)
+    .map(\.data)
+    .print("multicast")
+    .multicast(subject: subject)
+  
+  let subscription1 = multicasted
+    .sink(
+      receiveCompletion: { _ in },
+      receiveValue: { print("subscription1 received: '\($0)'") }
+    )
+  
+  let subscription2 = multicasted
+    .sink(
+      receiveCompletion: { _ in },
+      receiveValue: { print("subscription2 received: '\($0)'") }
+    )
+  
+  let cancellable = multicasted.connect()
+}
+
+
+// ===== Future
+/// While share() and multicast(_:) give you full-blown publishers, Combine comes with one more way to let you share the result of a computation: Future
+example(of: "Future") {
+  func performSomWork() throws -> Int {
+    print("Performing some work and returning a result")
+    return 5
+  }
+  
+  let future = Future<Int, Error> { fullfill in
+    do {
+      let result = try performSomWork()
+      fullfill(.success(result))
+    } catch {
+      fullfill(.failure(error))
+    }
+  }
+  
+  print("Subscribing to the future")
+  
+  let subscription1 = future
+    .sink(
+      receiveCompletion: { _ in print("subscription1 completed") },
+      receiveValue: { print("subscription1 received: '\($0)'") }
+    )
+  
+  let subscription2 = future
+    .sink(
+      receiveCompletion: { _ in print("subscription2 completed") },
+      receiveValue: { print("subscription2 received: '\($0)'") }
+    )
+
+}
