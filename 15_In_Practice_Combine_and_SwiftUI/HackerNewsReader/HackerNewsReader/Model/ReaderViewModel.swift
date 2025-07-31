@@ -6,12 +6,15 @@
 //
 
 import Foundation
+import Combine
 
-class ReaderViewModel {
+class ReaderViewModel: ObservableObject {
   private let api = API()
-  private var allStories = [Story]()
+  @Published private(set) var allStories = [Story]()
+  @Published var error: API.Error? = nil
+  @Published var filter = [String]()
   
-  var filter = [String]()
+  private var subscriptions = Set<AnyCancellable>() /// subscriptions
   
   var stories: [Story] {
     guard !filter.isEmpty else {
@@ -25,6 +28,25 @@ class ReaderViewModel {
         }
       }
   }
+
   
-  var error: API.Error? = nil
-}
+  // MARK: - Methods
+  /// ✅
+  func fetchStories() {
+    api
+      .stories()
+      .receive(on: DispatchQueue.main)
+      .sink(
+        receiveCompletion: { completion in
+          if case .failure(let error) = completion {
+            self.error = error
+          }
+        },
+        receiveValue: { stories in
+          self.allStories = stories
+          self.error = nil
+        }
+      )
+      .store(in: &subscriptions)
+  }
+} // 🧱

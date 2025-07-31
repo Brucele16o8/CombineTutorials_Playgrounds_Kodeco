@@ -6,32 +6,71 @@
 //
 
 import SwiftUI
+import Combine
 
 struct ReaderView: View {
-  var model: ReaderViewModel
-  var presentingSettingSheet = false
+  @ObservedObject var model: ReaderViewModel
+  @State private var presentingSettingSheet = false
+  @State private var currentDate = Date()
+  @Environment(\.colorScheme) var colorScheme: ColorScheme
+  @EnvironmentObject var settings: Settings
+
   
-  var currentDate = Date()
-  
+  private let timer = Timer.publish(every: 10, on: .main, in: .common)
+    .autoconnect()
+    .eraseToAnyPublisher()
+    
   var body: some View {
-    let filter = "Showing all stories"
+    let filter = settings.keywords.isEmpty
+    ? "Showing all stories"
+    : "Filter" + ": " + settings.keywords.map{ $0.value }.joined(separator: ", ")
     
     return NavigationStack {
       List {
         Section(header: Text(filter).padding(.leading, -10)) {
           ForEach(model.stories) { story in
             VStack(alignment: .leading, spacing: 10) {
+              TimeBadge(time: story.time)
               
+              Text(story.title)
+                .frame(minHeight: 0, maxHeight: 100)
+                .font(.title)
+              
+              PostedBy(
+                time: story.time,
+                user: story.by,
+                currentDate: self.currentDate
+              )
+              
+              Button(story.url) {
+                print(story)
+              }
+              .font(.subheadline)
+              .foregroundColor(colorScheme == .light ? .blue : .orange)
+              .padding(.top, 6)
             }
           }
+          .onReceive(timer) {
+            currentDate = $0
+          }
         }
+        .padding()
       } /// List
       .listStyle(PlainListStyle())
-      // Present the Settings sheet here
-      // Display errors here
+      .sheet(isPresented: $presentingSettingSheet, content: {
+        SettingsView()
+      })
+      .alert(item: $model.error) { error in
+        Alert(
+          title: Text("Network error"),
+          message: Text(error.localizedDescription),
+          dismissButton: .cancel()
+        )
+      }
       .navigationBarTitle(Text("\(model.stories.count) Stories"))
       .navigationBarItems(trailing: Button("Setting") {
-        // Set presentingSettingsSheet to true here
+        /// Set presentingSettingsSheet to true here
+        presentingSettingSheet = true
       })
     }
   }
@@ -39,4 +78,5 @@ struct ReaderView: View {
 
 #Preview {
   ReaderView(model: ReaderViewModel())
+    .environmentObject(Settings())
 }

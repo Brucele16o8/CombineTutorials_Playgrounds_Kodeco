@@ -21,13 +21,14 @@ fileprivate struct SettingsBarItems: View {
 
 /// A settings view showing a list of filter keywrods.
 struct SettingsView: View {
+  @EnvironmentObject var settings: Settings
   @State var presentingAddKeywordSheet = false
   
   var body: some View {
     NavigationStack {
       List {
         Section(header: Text("Filter keywords")) {
-          ForEach([FilterKeyword]()) { keyword in
+          ForEach(settings.keywords) { keyword in
             HStack(alignment: .top) {
               Image(systemName: "star")
                 .resizable()
@@ -38,35 +39,41 @@ struct SettingsView: View {
               Text(keyword.value)
             }
           }
+          .onMove(perform: moveKeyword)
+          .onDelete(perform: deleteKeyword)
         }
-        // list editting action
       } /// List
       .sheet(isPresented: $presentingAddKeywordSheet) {
         AddKeywordView(completed: { newKeyword in
-          
+          let new = FilterKeyword(value: newKeyword.lowercased())
+          self.settings.keywords.append(new)
+          self.presentingAddKeywordSheet = false
         })
         .frame(minHeight: 0, maxHeight: 400, alignment: .center)
       }
       .navigationBarTitle(Text("Settings"))
-      .navigationBarItems(trailing: SettingsBarItems(add: addKeyword))
+      .navigationBarItems(trailing: SettingsBarItems(add: addKeyword)) // Plus +
     } /// Navigation Stack
   }
   
   // MARK: - Helper methods
   private func addKeyword() {
-    
+    presentingAddKeywordSheet = true
   }
   
   private func moveKeyword(from source: IndexSet, to destination: Int) {
-    
+    settings.keywords.move(fromOffsets: source, toOffset: destination)
   }
   
   private func deleteKeyword(at index: IndexSet) {
-    
+    settings.keywords.remove(atOffsets: index)
   }
 } // 🧱
 
 
 #Preview {
-  SettingsView()
+  SettingsView(
+    
+  )
+  .environmentObject(Settings())
 }

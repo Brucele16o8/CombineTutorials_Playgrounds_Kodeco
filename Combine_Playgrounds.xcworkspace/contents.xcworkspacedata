@@ -31,4 +31,10 @@
    <FileRef
       location = "group:07_Sequence_Operators/07_Sequence_Operators.playground">
    </FileRef>
+   <FileRef
+      location = "group:12_Key_Value_Observing/12_Key_Value_Observing.playground">
+   </FileRef>
+   <FileRef
+      location = "group:14_In_Practice_Project_News/14_In_Practice_Project_News.playground">
+   </FileRef>
 </Workspace>
