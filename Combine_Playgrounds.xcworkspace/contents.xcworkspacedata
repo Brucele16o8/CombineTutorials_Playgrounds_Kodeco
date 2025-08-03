@@ -40,4 +40,13 @@
    <FileRef
       location = "group:16_Error_Handling/16_Error_Handling.playground">
    </FileRef>
+   <FileRef
+      location = "group:17_Schedulers/17_Schedulers.playground">
+   </FileRef>
+   <FileRef
+      location = "group:17_Schedulers/17_Schedulers_DispatchQueue_Challenge1.playground">
+   </FileRef>
+   <FileRef
+      location = "group:17_Schedulers/17_Schedulers_DispatchQueue_Challenge2.playground">
+   </FileRef>
 </Workspace>
